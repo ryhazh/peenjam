@@ -1,11 +1,10 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/ryhazh/peenjam/refs/heads/main/public/peenjam_logo_light.svg" width="400" alt="Laravel Logo"></a></p>
 
-# Peenjam — Platform Peminjaman Barang yang Mudah, Rapi, dan Modern
+# Peenjam /ˈpin·jəm/ — Platform Peminjaman Barang yang Mudah, Rapi, dan Modern
 
 **Peenjam** adalah aplikasi peminjaman barang yang dirancang untuk membantu organisasi, sekolah, kantor, atau komunitas dalam mengelola peminjaman barang dengan lebih terstruktur.  
 Di Peenjam, pengguna dapat dengan mudah melihat daftar barang yang tersedia dan mengajukan permintaan peminjaman langsung melalui aplikasi. Semua barang dikelola oleh **admin** — sehingga prosesnya lebih terkontrol, aman, dan tertata rapi.
 
-#### In Progress Project
 
 ### Bukan Marketplace, Bukan Peer-to-Peer
 
