@@ -10,7 +10,7 @@ class RecordController extends Controller
     public function index()
     {
         $records = Record::all();
-        return view('records.index', compact('records'));
+        return view('admin.records.index', compact('records'));
     }
 
     public function store(Request $request)
@@ -26,7 +26,7 @@ class RecordController extends Controller
             ]);
 
             Record::create($request->all());
-            return redirect()->route('records.index')->with('success', 'Record created successfully');
+            return redirect()->route('admin.records.index')->with('success', 'Record created successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage());
         }
