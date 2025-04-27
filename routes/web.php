@@ -7,7 +7,7 @@ use App\Http\Controllers\RecordController;
 use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/items');
 });
 
 Route::resource('categories', CategoryController::class);
