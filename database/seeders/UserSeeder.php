@@ -5,11 +5,14 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
+        $faker = Faker::create();
+
         User::create([
             'role_id' => 1, // admin
             'name' => 'Admin User',
@@ -18,21 +21,14 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'),
         ]);
 
-        User::create([
-            'role_id' => 2, // staff
-            'name' => 'Staff User',
-            'email' => 'staff@example.com',
-            'phone' => '0987654321',
-            'password' => Hash::make('password123'),
-        ]);
-
-        // Create some regular users
-        User::create([
-            'role_id' => 3, // user
-            'name' => 'Regular User',
-            'email' => 'user@example.com',
-            'phone' => '1122334455',
-            'password' => Hash::make('password123'),
-        ]);
+        for ($i = 0; $i < 5; $i++) {
+            User::create([
+                'role_id' => 2, // user role
+                'name' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'phone' => $faker->numerify('##########'),
+                'password' => Hash::make('password123'),
+            ]);
+        }
     }
 }

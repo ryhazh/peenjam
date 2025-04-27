@@ -16,9 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('item_id');
             $table->integer('quantity');
-            $table->date('borrow_date');
-            $table->date('return_date');
-            $table->string('status');
+            $table->date('borrowed_at');
+            $table->date('due_date');
+            $table->date('returned_at')->nullable();
+            $table->string('reason');
+            $table->enum('is_approved', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

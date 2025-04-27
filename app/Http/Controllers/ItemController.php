@@ -9,7 +9,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::all();
+        $items = Item::with('category')->get();
         return view('admin.items.index', compact('items'));
     }
 

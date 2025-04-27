@@ -20,9 +20,10 @@ class RecordController extends Controller
                 'user_id' => 'required|integer',
                 'item_id' => 'required|integer',
                 'quantity' => 'required|integer',
-                'borrow_date' => 'required|date',
-                'return_date' => 'required|date',
-                'status' => 'required|string|max:255',
+                'borrowed_at' => 'required|date',
+                'due_date' =>'required|date',
+                'returned_at' => 'required|date',
+                'reason' =>'required|string|max:255',
             ]);
 
             Record::create($request->all());

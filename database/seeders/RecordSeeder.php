@@ -3,33 +3,30 @@
 namespace Database\Seeders;
 
 use App\Models\Record;
+use App\Models\User;
+use App\Models\Item;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class RecordSeeder extends Seeder
 {
     public function run(): void
     {
-        $records = [
-            [
-                'user_id' => 3,
-                'item_id' => 1,
-                'quantity' => 1,
-                'borrow_date' => now(),
-                'return_date' => now()->addDays(7),
-                'status' => 'borrowed'
-            ],
-            [
-                'user_id' => 3,
-                'item_id' => 2,
-                'quantity' => 2,
-                'borrow_date' => now()->subDays(5),
-                'return_date' => now()->addDays(2),
-                'status' => 'borrowed'
-            ]
-        ];
-
-        foreach ($records as $record) {
-            Record::create($record);
+        $faker = Faker::create();
+        $userIds = User::where('role_id', 2)->pluck('id')->toArray();
+        $itemIds = Item::pluck('id')->toArray(); 
+        
+        for ($i = 0; $i < 10; $i++) {
+            Record::create([
+                'user_id' => $faker->randomElement($userIds),
+                'item_id' => $faker->randomElement($itemIds), 
+                'quantity' => $faker->numberBetween(1, 3),
+                'borrowed_at' => $faker->dateTimeBetween('-30 days', 'now'),
+                'due_date' => $faker->dateTimeBetween('now', '+30 days'),
+                'returned_at' => $faker->optional(0.3)->dateTimeBetween('-10 days', 'now'),
+                'reason' => $faker->sentence(),
+                'is_approved' => $faker->randomElement(['pending', 'approved', 'rejected']),
+            ]);
         }
     }
 }

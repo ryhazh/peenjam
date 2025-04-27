@@ -10,8 +10,30 @@ class Record extends Model
         'user_id',
         'item_id',
         'quantity',
-        'borrow_date',
-        'return_date',
-        'status',
+        'borrowed_at',
+        'due_date',
+        'returned_at',
+        'is_approved',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    public function getStatusAttribute() 
+    {
+        if ($this->returned_at) {
+            return 'Returned';
+        } elseif ($this->due_date < now()) {
+            return 'Overdue';
+        } else {
+            return 'Borrowed';
+        }
+    }
 }

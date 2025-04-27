@@ -8,12 +8,13 @@
 </head>
 <body>
     @foreach ($records as $record)
-        <p>{{$record->user_id}}</p>
-        <p>{{$record->item_id}}</p>
-        <p>{{$record->quantity}}</p>
-        <p>{{$record->borrow_date}}</p>
-        <p>{{$record->return_date}}</p>
-        <p>{{$record->status}}</p>
+        <p>User: {{$record->user->name}}</p>
+        <p>Item: {{$record->item->name}}</p>
+        <p>Quantity: {{$record->quantity}}</p>
+        <p>Borrowed At: {{$record->borrowed_at}}</p>
+        <p>Due Date: {{$record->due_date}}</p>
+        <p>Returned At: {{$record->returned_at}}</p>
+        <p>Status: {{$record->status}}</p>
     @endforeach
 </body>
 </html>
