@@ -16,13 +16,16 @@
     <style>
         :root {
             --tblr-font-sans-serif: "Inter";
+            --tblr-primary: #1b1b1b;
         }
+        
     </style>
 </head>
 
 <body>
-    @include('partials.navbar')
-    @include('partials.menu')
+    {{-- @include('partials.navbar')
+    @include('partials.menu') --}}
+    @include('partials.idk')
     <div class="container mt-5">
         @yield('content')
     </div>

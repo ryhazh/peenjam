@@ -1,9 +1,6 @@
 <header class="navbar navbar-expand-md d-print-none">
     <div class="container-xl">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu"
-            aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
         <a href="../../.." class="navbar-brand navbar-brand-autodark me-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="132" height="44" fill="none">
                 <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.088"

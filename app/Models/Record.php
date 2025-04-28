@@ -13,6 +13,7 @@ class Record extends Model
         'borrowed_at',
         'due_date',
         'returned_at',
+        'reason',
         'is_approved',
     ];
 

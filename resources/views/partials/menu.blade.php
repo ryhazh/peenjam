@@ -3,10 +3,7 @@
 @endphp
 <header class="navbar navbar-expand-md d-print-none">
     <div class="container-xl">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu"
-            aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
 
         <ul class="navbar-nav">
             <li class="nav-item {{ $currentUrl === 'items' ? 'active' : '' }}">
@@ -76,8 +73,6 @@
                 </a>
             </li>
         </ul>
-        <div class="navbar-nav flex-row order-md-last ms-auto">
 
-        </div>
     </div>
 </header>
