@@ -1,1 +1,24 @@
-CRUD Operations on Users
+1. Create Basic Layout
+- Design table structure for users display
+- Add header with page title
+
+
+2. Build Item Table View
+- Create responsive table
+- Display users details (name, email, etc)
+- Add action buttons (edit/delete)
+
+3. Create Forms
+- Add "Add New Users" form with Modal
+- Create "Edit Users" form with Modal
+
+
+4. Add UI Elements
+- Include search/filter functionality
+- Add pagination controls
+
+5. Testing
+- Check responsive design
+- Test all buttons and forms
+- Verify data display
+
