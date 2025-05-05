@@ -14,25 +14,25 @@ class RecordController extends Controller
         $status = request('status', 'all');
         $search = request('search');
         $filter = request('filter', 'all');
-        
+
         $query = Record::query();
-        
+
         // Status filter
         if ($status !== 'all') {
             if ($status === 'returned') {
                 $query->whereNotNull('returned_at');
             } elseif ($status === 'overdue') {
                 $query->whereNull('returned_at')
-                      ->where('due_date', '<', now());
+                    ->where('due_date', '<', now());
             } elseif ($status === 'borrowed') {
                 $query->whereNull('returned_at')
-                      ->where('due_date', '>=', now());
+                    ->where('due_date', '>=', now());
             }
         }
 
         // Search by username
         if ($search) {
-            $query->whereHas('user', function($q) use ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');
             });
         }
@@ -49,11 +49,11 @@ class RecordController extends Controller
             }
             $query->where('borrowed_at', '>=', $date);
         }
-        
-        $records = $query->paginate(5);
+
+        $records = $query->latest()->paginate(5);
         $users = User::all();
         $items = Item::all();
-        
+
         return view('admin.records.index', compact('records', 'users', 'items'));
     }
 
@@ -64,17 +64,27 @@ class RecordController extends Controller
                 'user_id' => 'required|integer',
                 'item_id' => 'required|integer',
                 'quantity' => 'required|integer',
-                'borrowed_at' => 'required|date',
-                'due_date' =>'required|date',
-                'returned_at' => 'required|date',
-                'reason' =>'required|string|max:255',
+                'due_date' => 'required|date',
+                'reason' => 'required|string|max:255',
             ]);
 
-            Record::create($request->all());
-            return redirect()->route('admin.records.index')->with('success', 'Record created successfully');
+            $data = $request->all();
+            $data['borrowed_at'] = now();
+
+            Record::create($data);
+            return redirect()->route('records.index')->with('success', 'Record created successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage());
         }
+    }
+
+    public function show(Record $record)
+    {
+        $records = Record::latest()->paginate(5);
+        $users = User::all();
+        $items = Item::all();
+
+        return view('admin.records.index', compact('records', 'users', 'items'));
     }
 
     public function destroy(Record $record)
@@ -90,16 +100,19 @@ class RecordController extends Controller
     public function update(Request $request, Record $record)
     {
         try {
-            $request->validate([
+            $validatedData = $request->validate([
                 'user_id' => 'required|integer',
                 'item_id' => 'required|integer',
                 'quantity' => 'required|integer',
-                'borrow_date' => 'required|date',
-                'return_date' => 'required|date',
-                'status' => 'required|string|max:255',
+                'due_date' => 'required|date',
+                'reason' => 'required|string|max:255'
             ]);
 
-            $record->update($request->all());
+            $validatedData['returned_at'] = $request->has('returned') ? now() : null;
+
+            $record->update($validatedData);
+
+            return redirect()->route('records.index')->with('success', 'Record updated successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage());
         }

@@ -5,7 +5,9 @@
 
         @foreach ($records as $record)
             @include('admin.records.delete')
+            @include('admin.records.update')
         @endforeach
+
         <div class="d-flex align-items-center justify-content-between mb-5">
             <div class="text-center">
                 <h1 class="mb-0">Records</h1>
@@ -129,7 +131,8 @@
                                                 <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
                                             </svg></a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#updateRecord{{ $record->id }}">Edit</a>
                                             <a class="dropdown-item" data-bs-toggle="modal"
                                                 data-bs-target="#deleteRecord{{ $record->id }}"
                                                 href="#">Delete</a>
@@ -152,3 +155,47 @@
 
     </div>
 @endsection
+
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible position-fixed top-0 end-0 m-3" role="alert"
+        style="z-index: 1050; min-width: 300px;">
+        <div class="d-flex">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M5 12l5 5l10 -10"></path>
+                </svg>
+            </div>
+            <div>
+                <h4 class="alert-title">Success</h4>
+                <div class="text-secondary">{{ session('success') }}</div>
+            </div>
+        </div>
+        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+    </div>
+@endif
+
+@if (session('error_message'))
+    <div class="alert alert-warning alert-dismissible position-fixed top-0 end-0 m-3" role="alert"
+        style="z-index: 1050; min-width: 300px;">
+        <div class="d-flex">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 9v2m0 4v.01" />
+                    <path
+                        d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="alert-title">{{ session('error_title', 'Error') }}</h4>
+                <div class="text-secondary">{{ session('error_message') }}</div>
+            </div>
+        </div>
+        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+    </div>
+@endif
