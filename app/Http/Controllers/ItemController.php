@@ -9,7 +9,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::with('category')->get();
+        $items = Item::with('category')->paginate(5);
         return view('admin.items.index', compact('items'));
     }
 
