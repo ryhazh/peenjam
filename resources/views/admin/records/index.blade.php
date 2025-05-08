@@ -192,8 +192,8 @@
                 </svg>
             </div>
             <div>
-                <h4 class="alert-title">{{ session('error_title', 'Error') }}</h4>
-                <div class="text-secondary">{{ session('error_message') }}</div>
+                <h4 class="alert-title">Error</h4>
+                <div class="text-secondary">{{ session('error') }}</div>
             </div>
         </div>
         <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
