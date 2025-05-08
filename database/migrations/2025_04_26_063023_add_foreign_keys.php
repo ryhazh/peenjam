@@ -38,6 +38,11 @@ return new class extends Migration
                   ->on('items')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
+            $table->foreign('actions_by')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
     }
 

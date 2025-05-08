@@ -15,6 +15,7 @@ class RecordSeeder extends Seeder
         $faker = Faker::create();
         $userIds = User::where('role_id', 2)->pluck('id')->toArray();
         $itemIds = Item::pluck('id')->toArray(); 
+        $staffIds = User::where('role_id', 1)->pluck('id')->toArray(); // Get staff user IDs
         
         for ($i = 0; $i < 10; $i++) {
             Record::create([
@@ -26,6 +27,7 @@ class RecordSeeder extends Seeder
                 'returned_at' => $faker->optional(0.3)->dateTimeBetween('-10 days', 'now'),
                 'reason' => $faker->sentence(),
                 'is_approved' => $faker->randomElement(['pending', 'approved', 'rejected']),
+                'actions_by' => $faker->randomElement($staffIds) 
             ]);
         }
     }
