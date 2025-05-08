@@ -13,10 +13,9 @@ class RecordSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-        $userIds = User::where('role_id', 2)->pluck('id')->toArray();
+        $userIds = User::where('role_id', 3)->pluck('id')->toArray();
         $itemIds = Item::pluck('id')->toArray(); 
-        $staffIds = User::where('role_id', 1)->pluck('id')->toArray(); // Get staff user IDs
-        
+        $staffIds = User::where('role_id', 2)->pluck('id')->toArray();    
         for ($i = 0; $i < 10; $i++) {
             Record::create([
                 'user_id' => $faker->randomElement($userIds),
