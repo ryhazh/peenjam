@@ -23,6 +23,8 @@ class CategoryController extends Controller
             Category::create([
                 'name' => $request->name,
             ]);
+
+            return redirect()->back()->with('success', 'Category created successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Something went wrong');
         }
