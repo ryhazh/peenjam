@@ -45,10 +45,16 @@ class UserController extends Controller
                 'name' =>'required|string|max:255',
                 'phone' =>'required|string|max:255',
                 'email' =>'required|email|unique:users,email,'.$id,
-                'password' =>'required|string|min:6',
+                'password' =>'nullable|string|min:6',
             ]);
 
-            $user->update($request->all());
+            $data = $request->except('password');
+            
+            if ($request->filled('password')) {
+                $data['password'] = bcrypt($request->password);
+            }
+
+            $user->update($data);
             return redirect()->back()->with('success', 'User updated successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
