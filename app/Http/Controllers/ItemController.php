@@ -3,14 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::with('category')->paginate(5);
-        return view('admin.items.index', compact('items'));
+        $search = request('search');
+        $categoryId = request('category_id');
+        $query = Item::with('category');
+
+        $categories = Category::all();
+
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        $items = $query->paginate(5);
+        return view('admin.items.index', compact('items', 'categories'));
     }
 
     public function store(Request $request)

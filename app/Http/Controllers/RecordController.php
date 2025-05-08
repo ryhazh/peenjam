@@ -17,7 +17,6 @@ class RecordController extends Controller
 
         $query = Record::query();
 
-        // Status filter
         if ($status !== 'all') {
             if ($status === 'returned') {
                 $query->whereNotNull('returned_at');
@@ -30,14 +29,12 @@ class RecordController extends Controller
             }
         }
 
-        // Search by username
         if ($search) {
             $query->whereHas('user', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');
             });
         }
 
-        // Date filter
         if ($filter !== 'all') {
             $date = now();
             if ($filter === '7') {
@@ -130,25 +127,5 @@ class RecordController extends Controller
         }
     }
 
-    public function accept(Request $request, Record $record)
-    {
-        try {
-            $record->update([
-                'status' => 'accepted',
-            ]);
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors($th->getMessage());
-        }
-    }
 
-    public function reject(Request $request, Record $record)
-    {
-        try {
-            $record->update([
-                'status' => 'rejected',
-            ]);
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors($th->getMessage());
-        }
-    }
 }

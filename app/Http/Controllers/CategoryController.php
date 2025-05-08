@@ -9,7 +9,14 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::paginate(5);
+        $search = request('search');
+        $query = Category::query();
+
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        $categories = $query->paginate(5);
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -37,6 +44,19 @@ class CategoryController extends Controller
             $category->update([
                 'name' => $request->name,
             ]);
+
+            return redirect()->back()->with('success', 'Category updated successfully');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+            $category->delete();
+            return redirect()->back()->with('success', 'Category deleted successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Something went wrong');
         }
