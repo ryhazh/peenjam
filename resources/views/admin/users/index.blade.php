@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 @section('content')
+@include('admin.users.add')
+
+@foreach ($users as $user)
+@include('admin.users.delete')
+@include('admin.users.update')
+@endforeach
 
     <div class="d-flex align-items-center justify-content-between mb-5">
         <div class="text-center">
@@ -87,7 +93,8 @@
                                             <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
                                         </svg></a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#updateUser{{ $user->id }}">Edit</a>
                                         <a class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#deleteUser{{ $user->id }}"
                                             href="#">Delete</a>
