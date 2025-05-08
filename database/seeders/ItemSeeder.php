@@ -18,22 +18,22 @@ class ItemSeeder extends Seeder
                 'quantity' => 10
             ],
             [
-                'name' => 'Physics Textbook',
-                'image' => 'physics-book.jpg',
+                'name' => 'Keyboard',
+                'image' => 'keyboard.jpeg',
                 'category_id' => 2,
-                'description' => 'University level physics textbook',
+                'description' => 'Logitech MX Keys Mini Wireless Keyboard',
                 'quantity' => 20
             ],
             [
                 'name' => 'Basketball',
-                'image' => 'basketball.jpg',
+                'image' => 'basketball.png',
                 'category_id' => 3,
                 'description' => 'Official size basketball',
                 'quantity' => 15
             ],
             [
                 'name' => 'Scientific Calculator',
-                'image' => 'calculator.jpg',
+                'image' => 'calculator.jpeg',
                 'category_id' => 1,
                 'description' => 'Advanced scientific calculator for mathematics',
                 'quantity' => 25
@@ -47,23 +47,23 @@ class ItemSeeder extends Seeder
             ],
             [
                 'name' => 'Projector',
-                'image' => 'projector.jpg',
+                'image' => 'projector.png',
                 'category_id' => 1,
                 'description' => 'HD projector for presentations',
                 'quantity' => 5
             ],
             [
                 'name' => 'Volleyball',
-                'image' => 'volleyball.jpg',
+                'image' => 'volleyball.jpeg',
                 'category_id' => 3,
                 'description' => 'Competition grade volleyball',
                 'quantity' => 12
             ],
             [
-                'name' => 'Biology Reference Book',
-                'image' => 'biology-book.jpg',
+                'name' => 'Headset',
+                'image' => 'headset.jpeg',
                 'category_id' => 2,
-                'description' => 'Comprehensive biology reference guide',
+                'description' => 'Logitech G Pro X Gaming Headset',
                 'quantity' => 15
             ]
         ];
