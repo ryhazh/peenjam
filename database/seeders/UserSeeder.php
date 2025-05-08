@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
 
         for ($i = 0; $i < 5; $i++) {
             User::create([
-                'role_id' => 2, // user role
+                'role_id' => 3, // user role
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'phone' => $faker->numerify('##########'),

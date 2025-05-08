@@ -22,6 +22,16 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => 'required|string|min:6',
             ]);
+
+            User::create([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'role_id' => 3
+            ]);
+
+            return redirect()->route('users.index')->with('success', 'User created successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
