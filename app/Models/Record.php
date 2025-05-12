@@ -15,6 +15,7 @@ class Record extends Model
         'returned_at',
         'reason',
         'is_approved',
+        'actions_by'
     ];
 
     public function user()
@@ -22,12 +23,17 @@ class Record extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getActionsByUserId($userId)
+    {
+        return Record::where('actions_by', $userId)->get(); 
+    }
+
     public function item()
     {
         return $this->belongsTo(Item::class);
     }
 
-    public function getStatusAttribute() 
+    public function getStatusAttribute()
     {
         if ($this->returned_at) {
             return 'Returned';

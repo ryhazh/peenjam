@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\User;
 use App\Models\Record;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RecordController extends Controller
 {
@@ -48,7 +49,7 @@ class RecordController extends Controller
         }
 
         $records = $query->latest()->paginate(5);
-        $users = User::all();
+        $users = User::where('role_id', 3)->get();
         $items = Item::all();
 
         return view('admin.records.index', compact('records', 'users', 'items'));
@@ -67,6 +68,7 @@ class RecordController extends Controller
 
             $data = $request->all();
             $data['borrowed_at'] = now();
+            $data['actions_by'] = Auth::id();
 
             Record::create($data);
             return redirect()->route('records.index')->with('success', 'Record created successfully');
@@ -126,6 +128,4 @@ class RecordController extends Controller
             return redirect()->back()->withErrors($th->getMessage());
         }
     }
-
-
 }

@@ -117,13 +117,30 @@
                                     <span
                                         class="badge bg-{{ $record->status === 'Returned' ? 'green' : ($record->status === 'Overdue' ? 'red' : 'yellow') }}-lt">
                                         {{ $record->status }}
+                                        @if ($record->status === 'Returned')
+                                            <span data-bs-trigger="hover" class="text-right"
+                                            data-bs-toggle="popover" title="Returned At"
+                                            data-bs-content="{{$record->returned_at}}" data-bs-placement="top">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                    viewBox="0 0 24 24">
+                                                    <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0-18 0m9-3h.01" />
+                                                        <path d="M11 12h1v4h1" />
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                        @endif
                                     </span>
+
                                 </td>
                                 <td>
                                     <div class="dropdown">
-                                        <a data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        <a data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"
                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
@@ -163,7 +180,7 @@
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                    stroke-linecap="round" stroke-linejoin="round"> 
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                     <path d="M5 12l5 5l10 -10"></path>
                 </svg>
@@ -177,7 +194,7 @@
     </div>
 @endif
 
-@if (session('error_message'))
+@if (session('error'))
     <div class="alert alert-warning alert-dismissible position-fixed top-0 end-0 m-3" role="alert"
         style="z-index: 1050; min-width: 300px;">
         <div class="d-flex">

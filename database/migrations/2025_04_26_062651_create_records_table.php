@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('due_date');
             $table->date('returned_at')->nullable();
             $table->string('reason');
-            $table->enum('is_approved', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('is_approved', ['Pending', 'Approved', 'Rejected'])->default('pending');
             $table->unsignedBigInteger('actions_by')->nullable();
             $table->timestamps();
         });

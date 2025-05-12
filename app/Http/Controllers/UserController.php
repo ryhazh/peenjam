@@ -10,6 +10,7 @@ class UserController extends Controller
     public function index()
     {
         $search = request('search');
+        $role = request('role');
         $query = User::query();
 
         if ($search) {
