@@ -1,12 +1,11 @@
 @extends('layouts.admin')
 @section('content')
     <div class="container">
-        {{-- @include('admin.requests.add')
 
         @foreach ($requests as $request)
-            @include('admin.requests.delete')
-            @include('admin.requests.update')
-        @endforeach --}}
+            @include('admin.requests.reject')
+            @include('admin.requests.accept')
+        @endforeach
 
         <div class="d-flex align-items-center justify-content-between mb-5">
             <div class="text-center">
@@ -148,7 +147,7 @@
                                     </span>
                                 </td>
                                 <td class="d-flex">
-                                    <form action="{{ route('requests.accept', $request->id) }}" method="POST">
+                                    {{-- <form action="{{ route('requests.accept', $request->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit"
@@ -160,9 +159,19 @@
                                                     stroke-linejoin="round" stroke-width="2" d="m5 12l5 5L20 7" />
                                             </svg>
                                         </button>
-                                    </form>
+                                    </form> --}}
 
-                                    <form action="{{ route('requests.reject', $request->id) }}" method="POST">
+                                    <button data-bs-toggle="modal" data-bs-target="#acceptModal{{ $request->id }}"
+                                        class="btn btn-pill {{ $request->is_approved === 'Approved' ? 'disabled' : '' }} rounded-end-0 btn-green"
+                                        {{ $request->is_approved === 'approved' ? 'disabled' : '' }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="2" d="m5 12l5 5L20 7" />
+                                        </svg>
+                                    </button>
+
+                                    {{-- <form action="{{ route('requests.reject', $request->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit"
@@ -174,7 +183,16 @@
                                                     stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12" />
                                             </svg>
                                         </button>
-                                    </form>
+                                    </form> --}}
+                                    <button data-bs-toggle="modal" data-bs-target="#rejectModal{{ $request->id }}"
+                                        class="btn btn-pill {{ $request->is_approved === 'Rejected' ? 'disabled' : '' }} rounded-start-0 btn-red"
+                                        {{ $request->is_approved === 'approved' ? 'disabled' : '' }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12" />
+                                        </svg>
+                                    </button>
                                 </td>
                             </tr>
                         @empty
@@ -195,48 +213,48 @@
         </div>
 
     </div>
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible position-fixed top-0 end-0 m-3" role="alert"
+            style="z-index: 1050; min-width: 300px;">
+            <div class="d-flex">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M5 12l5 5l10 -10"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="alert-title">Success</h4>
+                    <div class="text-secondary">{{ session('success') }}</div>
+                </div>
+            </div>
+            <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-warning alert-dismissible position-fixed top-0 end-0 m-3" role="alert"
+            style="z-index: 1050; min-width: 300px;">
+            <div class="d-flex">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 9v2m0 4v.01" />
+                        <path
+                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="alert-title">Error</h4>
+                    <div class="text-secondary">{{ session('error') }}</div>
+                </div>
+            </div>
+            <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+        </div>
+    @endif
 @endsection
-
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible position-fixed top-0 end-0 m-3" role="alert"
-        style="z-index: 1050; min-width: 300px;">
-        <div class="d-flex">
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
-                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M5 12l5 5l10 -10"></path>
-                </svg>
-            </div>
-            <div>
-                <h4 class="alert-title">Success</h4>
-                <div class="text-secondary">{{ session('success') }}</div>
-            </div>
-        </div>
-        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
-    </div>
-@endif
-
-@if (session('error'))
-    <div class="alert alert-warning alert-dismissible position-fixed top-0 end-0 m-3" role="alert"
-        style="z-index: 1050; min-width: 300px;">
-        <div class="d-flex">
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
-                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 9v2m0 4v.01" />
-                    <path
-                        d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
-                </svg>
-            </div>
-            <div>
-                <h4 class="alert-title">Error</h4>
-                <div class="text-secondary">{{ session('error') }}</div>
-            </div>
-        </div>
-        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
-    </div>
-@endif
