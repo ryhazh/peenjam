@@ -58,24 +58,30 @@ class RecordController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validate([
-                'user_id' => 'required|integer',
-                'item_id' => 'required|integer',
-                'quantity' => 'required|integer',
-                'due_date' => 'required|date',
-                'reason' => 'required|string|max:255',
+            $validated = $request->validate([
+                'user_id'   => 'required|integer',
+                'item_id'   => 'required|integer',
+                'quantity'  => 'required|integer',
+                'due_date'  => 'required|date',
+                'reason'    => 'required|string|max:255',
             ]);
 
-            $data = $request->all();
-            $data['borrowed_at'] = now();
-            $data['actions_by'] = Auth::id();
+            $validated['borrowed_at'] = now();
+            $validated['actions_by'] = Auth::id();
 
-            Record::create($data);
-            return redirect()->route('records.index')->with('success', 'Record created successfully');
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors($th->getMessage());
+            Record::create($validated);
+
+            return redirect()
+                ->route('records.index')
+                ->with('success', 'Record created successfully.');
+        } catch (\Throwable $e) {
+            return redirect()
+                ->back()
+                ->withErrors(['error' => $e->getMessage()])
+                ->withInput();
         }
     }
+
 
     public function show(Record $record)
     {
@@ -99,21 +105,27 @@ class RecordController extends Controller
     public function update(Request $request, Record $record)
     {
         try {
-            $validatedData = $request->validate([
-                'user_id' => 'required|integer',
-                'item_id' => 'required|integer',
-                'quantity' => 'required|integer',
-                'due_date' => 'required|date',
-                'reason' => 'required|string|max:255'
+            $validated = $request->validate([
+                'user_id'   => 'required|integer',
+                'item_id'   => 'required|integer',
+                'quantity'  => 'required|integer',
+                'due_date'  => 'required|date',
+                'reason'    => 'required|string|max:255',
             ]);
 
-            $validatedData['returned_at'] = $request->has('returned') ? now() : null;
+            $validated['returned_at'] = $request->boolean('returned') ? now() : null;
+            $validated['actions_by']  = Auth::id();
 
-            $record->update($validatedData);
+            $record->update($validated);
 
-            return redirect()->route('records.index')->with('success', 'Record updated successfully');
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors($th->getMessage());
+            return redirect()
+                ->route('records.index')
+                ->with('success', 'Record updated successfully.');
+        } catch (\Throwable $e) {
+            return redirect()
+                ->back()
+                ->withErrors(['error' => $e->getMessage()])
+                ->withInput();
         }
     }
 

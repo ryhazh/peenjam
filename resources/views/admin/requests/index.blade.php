@@ -24,74 +24,76 @@
 
         <div class="card">
             <div class="p-3">
+                {{-- Desktop Layout --}}
                 <form id="filterForm" action="{{ route('requests.index') }}" method="GET"
-                    class="d-none d-md-flex align-items-center justify-content-between gap-2">
-                    <form method="GET" class="d-flex align-items-center justify-content-between gap-3 flex-nowrap">
-                        <!-- Left group: Search + Days Filter -->
-                        <div class="d-flex align-items-center gap-2 flex-nowrap">
-                            <!-- Search Field -->
+                    class="d-none d-md-flex align-items-center justify-content-between gap-2 flex-wrap">
+
+                    <div class="d-flex align-items-center gap-2 flex-nowrap">
+                        {{-- Search Input --}}
+                        <div class="input-icon">
                             <input type="text" name="search" value="{{ request('search') }}" class="form-control"
                                 placeholder="Search by username..." style="min-width: 220px;" />
-
-                            <!-- Days Filter -->
-                            <select name="filter" id="filter" class="form-select" onchange="this.form.submit()">
-                                <option value="7" {{ request('filter') === '7' ? 'selected' : '' }}>Last 7 days
-                                </option>
-                                <option value="31" {{ request('filter') === '31' ? 'selected' : '' }}>Last 31 days
-                                </option>
-                                <option value="3" {{ request('filter') === '3' ? 'selected' : '' }}>Last 3 months
-                                </option>
-                                <option value="all" {{ request('filter', 'all') === 'all' ? 'selected' : '' }}>All
-                                </option>
-                            </select>
                         </div>
 
-                        <div>
-                            <select name="status" id="status" class="form-select" onchange="this.form.submit()">
-                                <option value="all" {{ request('status') === 'all' ? 'selected' : '' }}>All</option>
-                                <option value="pending" {{ request('status', 'pending') === 'pending' ? 'selected' : '' }}>
-                                    Pending</option>
-                                <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejected
-                                </option>
-                                <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Approved
-                                </option>
-                            </select>
+                        {{-- Filter by Days --}}
+                        <select name="filter" id="filter" class="form-select" onchange="this.form.submit()">
+                            <option value="7" {{ request('filter') === '7' ? 'selected' : '' }}>Last 7 days</option>
+                            <option value="31" {{ request('filter') === '31' ? 'selected' : '' }}>Last 31 days</option>
+                            <option value="3" {{ request('filter') === '3' ? 'selected' : '' }}>Last 3 months</option>
+                            <option value="all" {{ request('filter', 'all') === 'all' ? 'selected' : '' }}>All</option>
+                        </select>
+                    </div>
 
-                        </div>
-                    </form>
-
+                    {{-- Filter by Status --}}
+                    <div>
+                        <select name="status" id="status" class="form-select" onchange="this.form.submit()">
+                            <option value="all" {{ request('status', 'all') === 'all' ? 'selected' : '' }}>All</option>
+                            <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejected
+                            </option>
+                            <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Approved
+                            </option>
+                        </select>
+                    </div>
                 </form>
 
-                <form action="{{ route('requests.index') }}" method="GET" class="d-flex d-md-none flex-column gap-2">
-                    <!-- Mobile layout -->
+                {{-- Mobile Layout --}}
+                <form action="{{ route('requests.index') }}" method="GET"
+                    class="d-flex d-md-none flex-column gap-2 mt-2">
+
+                    {{-- Status Dropdown --}}
                     <div class="dropdown">
                         <a href="#" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
                             {{ ucfirst(request('status', 'all')) }}
                         </a>
                         <div class="dropdown-menu">
                             <button class="dropdown-item" type="submit" name="status" value="all">All</button>
-                            <button class="dropdown-item" type="submit" name="status" value="borrowed">Borrowed</button>
-                            <button class="dropdown-item" type="submit" name="status" value="overdue">Overdue</button>
-                            <button class="dropdown-item" type="submit" name="status" value="returned">Returned</button>
+                            <button class="dropdown-item" type="submit" name="status" value="pending">Pending</button>
+                            <button class="dropdown-item" type="submit" name="status" value="rejected">Rejected</button>
+                            <button class="dropdown-item" type="submit" name="status" value="approved">Approved</button>
                         </div>
                     </div>
 
                     <div class="d-flex gap-2">
-                        <div class="input-icon">
+                        {{-- Search Input --}}
+                        <div class="input-icon flex-fill">
                             <input type="text" name="search" value="{{ request('search') }}" class="form-control"
                                 placeholder="Search..." />
                             <span class="input-icon-addon">
-                                <!-- search icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
                             </span>
                         </div>
 
-                        <select name="filter" id="filter" class="form-select " onchange="this.form.submit()">
-                            <option value="7" {{ request('filter') === '7' ? 'selected' : '' }}>
-                                < 7 days</option>
-                            <option value="31" {{ request('filter') === '31' ? 'selected' : '' }}>
-                                < 31 days</option>
-                            <option value="3" {{ request('filter') === '3' ? 'selected' : '' }}>
-                                < 3 months</option>
+                        {{-- Filter by Days --}}
+                        <select name="filter" id="filter" class="form-select" onchange="this.form.submit()">
+                            <option value="7" {{ request('filter') === '7' ? 'selected' : '' }}>7 days</option>
+                            <option value="31" {{ request('filter') === '31' ? 'selected' : '' }}>31 days</option>
+                            <option value="3" {{ request('filter') === '3' ? 'selected' : '' }}>3 months</option>
                             <option value="all" {{ request('filter', 'all') === 'all' ? 'selected' : '' }}>All</option>
                         </select>
                     </div>
@@ -115,7 +117,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($requests as $request)
+                        @forelse ($requests as $request)
                             <tr>
                                 <td class="ps-4">{{ $request->id }}</td>
                                 <td>{{ $request->user->name }}</td>
@@ -128,6 +130,21 @@
                                     <span
                                         class="badge bg-{{ $request->is_approved === 'pending' ? 'indigo' : ($request->is_approved === 'rejected' ? 'red' : '') }}-lt">
                                         {{ $request->is_approved }}
+                                        @if ($request->is_approved === 'pending' || 'rejected')
+                                            <span data-bs-trigger="hover" class="text-right" data-bs-toggle="popover"
+                                                title="Actions by"
+                                                data-bs-content="{{ $request->actionUser?->name ?? 'Unknown' }}"
+                                                data-bs-placement="top">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                    viewBox="0 0 24 24">
+                                                    <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0-18 0m9-3h.01" />
+                                                        <path d="M11 12h1v4h1" />
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                        @endif
                                     </span>
                                 </td>
                                 <td class="d-flex">
@@ -158,10 +175,13 @@
                                             </svg>
                                         </button>
                                     </form>
-
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="9" class="text-center py-4">No requests found.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

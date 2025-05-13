@@ -20,12 +20,13 @@ class Record extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function getActionsByUserId($userId)
+
+    public function actionUser()
     {
-        return Record::where('actions_by', $userId)->get(); 
+        return $this->belongsTo(User::class, 'actions_by');
     }
 
     public function item()

@@ -11,11 +11,10 @@ class RequestController extends Controller
     public function index(Request $request)
     {
         $query = Record::query();
-        $search = request('search');
-        $filter = request('filter', 'all');
-
-
+        $search = $request->query('search');
+        $filter = $request->query('filter', 'all');
         $status = $request->query('status', 'pending');
+
         if (in_array($status, ['pending', 'rejected', 'approved'])) {
             $query->where('is_approved', $status);
         }
@@ -26,15 +25,16 @@ class RequestController extends Controller
             });
         }
 
-        $filter = $request->query('filter');
-        $dateFilters = [
-            '7days' => now()->subDays(7),
-            '31days' => now()->subDays(31),
-            '2months' => now()->subMonths(2),
-        ];
-
-        if (isset($dateFilters[$filter])) {
-            $query->where('created_at', '>=', $dateFilters[$filter]);
+        if ($filter !== 'all') {
+            $date = now();
+            if ($filter === '7') {
+                $date = $date->subDays(7);
+            } elseif ($filter === '31') {
+                $date = $date->subDays(31);
+            } elseif ($filter === '3') {
+                $date = $date->subMonths(3);
+            }
+            $query->where('borrowed_at', '>=', $date);
         }
 
         $requests = $query->latest()->paginate(5);
