@@ -13,9 +13,17 @@ class Item extends Model
         return $this->belongsTo(Category::class);
     }
 
-
-    public function availableQuantity()
+    public function records()
     {
-        return $this->quantity - $this->records()->where('returned_at', null)->count();
+        return $this->hasMany(Record::class);
+    }
+
+    public function getAvailableItemsAttribute()
+    {
+        $borrowedCount = $this->records()
+            ->whereNull('returned_at')
+            ->sum('quantity');
+
+        return $this->quantity - ($borrowedCount ?? 0);
     }
 }

@@ -25,7 +25,7 @@ class ItemController extends Controller
         }
 
         $items = $query->paginate(5);
-        return view('admin.items.index', compact('items', 'categories'));
+        return view('shared.items.index', compact('items', 'categories'));
     }
 
     public function store(Request $request)
@@ -52,7 +52,6 @@ class ItemController extends Controller
 
             Item::create($data);
             return redirect()->route('items.index')->with('success', 'Item created successfully');
-            
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Something went wrong');
         }
@@ -69,7 +68,7 @@ class ItemController extends Controller
                 'category_id' => $request->category_id,
             ]);
 
-            return redirect()->back()-with('success', 'Item updated successfully');
+            return redirect()->back() - with('success', 'Item updated successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Something went wrong');
         }

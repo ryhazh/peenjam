@@ -16,7 +16,13 @@ class RecordController extends Controller
         $search = request('search');
         $filter = request('filter', 'all');
 
+        $user = Auth::user();
+
         $query = Record::query();
+
+        if ($user->role->name === 'user') {
+            $query->where('user_id', $user->id);
+        }
 
         if ($status !== 'all') {
             if ($status === 'returned') {
@@ -52,7 +58,7 @@ class RecordController extends Controller
         $users = User::where('role_id', 3)->get();
         $items = Item::all();
 
-        return view('admin.records.index', compact('records', 'users', 'items'));
+        return view('shared.records.index', compact('records', 'users', 'items'));
     }
 
     public function store(Request $request)

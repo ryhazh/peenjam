@@ -7,18 +7,22 @@
             @include('admin.requests.accept')
         @endforeach
 
+        @include('shared.requests.add')
+
         <div class="d-flex align-items-center justify-content-between mb-5">
             <div class="text-center">
                 <h1 class="mb-0">Requests</h1>
             </div>
-            {{-- <button data-bs-toggle="modal" data-bs-target="#addrequest" class="btn btn-primary ms-3"><svg
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 5l0 14" />
-                    <path d="M5 12l14 0" />
-                </svg> Borrow an Item</button> --}}
+            @if (isset($user->role) && $user->role->name === 'user')
+                <button data-bs-toggle="modal" data-bs-target="#newRequest" class="btn btn-primary ms-3"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 5l0 14" />
+                        <path d="M5 12l14 0" />
+                    </svg> Request to Borrow</button>
+            @endif
         </div>
 
         <div class="card">
@@ -47,7 +51,8 @@
                     <div>
                         <select name="status" id="status" class="form-select" onchange="this.form.submit()">
                             <option value="all" {{ request('status', 'all') === 'all' ? 'selected' : '' }}>All</option>
-                            <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="pending" {{ request('status', 'pending') === 'pending' ? 'selected' : '' }}>
+                                Pending</option>
                             <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejected
                             </option>
                             <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Approved
@@ -111,8 +116,14 @@
                             <th>Borrowed At</th>
                             <th>Reason</th>
                             <th>Due Date</th>
-                            <th>Status</th>
-                            <th class="w-1 pe-4">Action</th>
+                            @if (isset($user->role))
+                                @if ($user->role->name === 'user')
+                                    <th class="w-1 pe-4">Status</th>
+                                @elseif (in_array($user->role->name, ['admin', 'staff']))
+                                    <th class="w-1">Status</th>
+                                    <th class="w-1 pe-4">Action</th>
+                                @endif
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -127,9 +138,15 @@
                                 <td>{{ $request->due_date }}</td>
                                 <td class="pe-4">
                                     <span
-                                        class="badge bg-{{ $request->is_approved === 'pending' ? 'indigo' : ($request->is_approved === 'rejected' ? 'red' : '') }}-lt">
+                                        class="badge bg-{{ $request->is_approved === 'Pending'
+                                            ? 'indigo'
+                                            : ($request->is_approved === 'Rejected'
+                                                ? 'red'
+                                                : ($request->is_approved === 'Approved'
+                                                    ? 'green'
+                                                    : '')) }}-lt">
                                         {{ $request->is_approved }}
-                                        @if ($request->is_approved === 'pending' || 'rejected')
+                                        @if ($request->is_approved === 'Pending' || 'Rejected')
                                             <span data-bs-trigger="hover" class="text-right" data-bs-toggle="popover"
                                                 title="Actions by"
                                                 data-bs-content="{{ $request->actionUser?->name ?? 'Unknown' }}"
@@ -146,54 +163,29 @@
                                         @endif
                                     </span>
                                 </td>
-                                <td class="d-flex">
-                                    {{-- <form action="{{ route('requests.accept', $request->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit"
+                                @if (in_array($user->role->name, ['admin', 'staff']))
+                                    <td class="d-flex">
+                                        <button data-bs-toggle="modal" data-bs-target="#acceptModal{{ $request->id }}"
                                             class="btn btn-pill {{ $request->is_approved === 'Approved' ? 'disabled' : '' }} rounded-end-0 btn-green"
-                                            {{ $request->is_approved === 'approved' ? 'disabled' : '' }}>
+                                            {{ $request->is_approved === 'Approved' ? 'disabled' : '' }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24">
                                                 <path fill="none" stroke="currentColor" stroke-linecap="round"
                                                     stroke-linejoin="round" stroke-width="2" d="m5 12l5 5L20 7" />
                                             </svg>
                                         </button>
-                                    </form> --}}
 
-                                    <button data-bs-toggle="modal" data-bs-target="#acceptModal{{ $request->id }}"
-                                        class="btn btn-pill {{ $request->is_approved === 'Approved' ? 'disabled' : '' }} rounded-end-0 btn-green"
-                                        {{ $request->is_approved === 'approved' ? 'disabled' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24">
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2" d="m5 12l5 5L20 7" />
-                                        </svg>
-                                    </button>
-
-                                    {{-- <form action="{{ route('requests.reject', $request->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit"
+                                        <button data-bs-toggle="modal" data-bs-target="#rejectModal{{ $request->id }}"
                                             class="btn btn-pill {{ $request->is_approved === 'Rejected' ? 'disabled' : '' }} rounded-start-0 btn-red"
-                                            {{ $request->is_approved === 'approved' ? 'disabled' : '' }}>
+                                            {{ $request->is_approved === 'Approved' ? 'disabled' : '' }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24">
                                                 <path fill="none" stroke="currentColor" stroke-linecap="round"
                                                     stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12" />
                                             </svg>
                                         </button>
-                                    </form> --}}
-                                    <button data-bs-toggle="modal" data-bs-target="#rejectModal{{ $request->id }}"
-                                        class="btn btn-pill {{ $request->is_approved === 'Rejected' ? 'disabled' : '' }} rounded-start-0 btn-red"
-                                        {{ $request->is_approved === 'approved' ? 'disabled' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24">
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </td>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

@@ -12,14 +12,16 @@
             <div class="text-center">
                 <h1 class="mb-0">Records</h1>
             </div>
-            <button data-bs-toggle="modal" data-bs-target="#addRecord" class="btn btn-primary ms-3"><svg
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 5l0 14" />
-                    <path d="M5 12l14 0" />
-                </svg> Borrow an Item</button>
+            @if (in_array($user->role->name, ['admin', 'staff']))
+                <button data-bs-toggle="modal" data-bs-target="#addRecord" class="btn btn-primary ms-3"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 5l0 14" />
+                        <path d="M5 12l14 0" />
+                    </svg> Borrow an Item</button>
+            @endif
         </div>
 
         <div class="card">
@@ -116,8 +118,14 @@
                             <th>Borrowed At</th>
                             <th>Reason</th>
                             <th>Due Date</th>
-                            <th>Status</th>
-                            <th class="w-1 pe-4">Action</th>
+                            @if (isset($user->role))
+                                @if ($user->role->name === 'user')
+                                    <th class="w-1 pe-4">Status</th>
+                                @elseif (in_array($user->role->name, ['admin', 'staff']))
+                                    <th class="w-1">Status</th>
+                                    <th class="w-1 pe-4">Action</th>
+                                @endif
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -150,26 +158,28 @@
                                         @endif
                                     </span>
                                 </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg"
-                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                                                <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                                                <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                                            </svg></a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#updateRecord{{ $record->id }}">Edit</a>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#deleteRecord{{ $record->id }}">Delete</a>
+                                @if (in_array($user->role->name, ['admin', 'staff']))
+                                    <td>
+                                        <div class="dropdown">
+                                            <a data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                                    <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                                    <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                                </svg></a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#updateRecord{{ $record->id }}">Edit</a>
+                                                <a class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteRecord{{ $record->id }}">Delete</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

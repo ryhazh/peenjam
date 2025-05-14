@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Record;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
+
     public function index(Request $request)
     {
+        $user = Auth::user();
         $query = Record::query();
+
+        if ($user->role->name === 'user') {
+            $query->where('user_id', $user->id);
+        }
+
         $search = $request->query('search');
         $filter = $request->query('filter', 'all');
         $status = $request->query('status', 'pending');
@@ -27,6 +35,7 @@ class RequestController extends Controller
 
         if ($filter !== 'all') {
             $date = now();
+
             if ($filter === '7') {
                 $date = $date->subDays(7);
             } elseif ($filter === '31') {
@@ -34,13 +43,17 @@ class RequestController extends Controller
             } elseif ($filter === '3') {
                 $date = $date->subMonths(3);
             }
+
             $query->where('borrowed_at', '>=', $date);
         }
 
         $requests = $query->latest()->paginate(5);
+        $items = Item::all();
 
-        return view('admin.requests.index', compact('requests'));
+
+        return view('shared.requests.index', compact('requests', 'items'));
     }
+
 
 
     public function store(Request $request)
@@ -49,7 +62,6 @@ class RequestController extends Controller
             $request->validate([
                 'item_id' => 'required|exists:items,id',
                 'quantity' => 'required|integer|min:1',
-                'borrowed_at' => 'required|date',
                 'due_date' => 'required|date|after:borrowed_at',
                 'reason' => 'required|string',
             ]);
@@ -58,7 +70,7 @@ class RequestController extends Controller
                 'user_id' => Auth::id(),
                 'item_id' => $request->item_id,
                 'quantity' => $request->quantity,
-                'borrowed_at' => $request->borrowed_at,
+                'borrowed_at' => now(),
                 'due_date' => $request->due_date,
                 'reason' => $request->reason,
                 'is_approved' => 'Pending'

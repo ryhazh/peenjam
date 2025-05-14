@@ -1,29 +1,20 @@
-<div class="modal" id="addRecord" tabindex="-1">
+<div class="modal" id="newRequest" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Borrow an Item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('records.store') }}" method="POST">
+            <form action="{{ route('requests.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">User</label>
-                        <select name="user_id" class="form-select" required>
-                            <option value="">Select a user</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div class="mb-3">
                         <label class="form-label">Item</label>
                         <select name="item_id" class="form-select" required>
                             <option value="">Select an item</option>
                             @foreach ($items as $item)
                                 <option value="{{ $item->id }}" {{ $item->available_items < 1 ? 'disabled' : '' }}>
-                                    {{ $item->name }} ({{ $item->available_items }} available)
+                                    {{ $item->name }} ({{ $item->available_copies }} available)
                                 </option>
                             @endforeach
                         </select>

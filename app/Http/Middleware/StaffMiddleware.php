@@ -19,7 +19,7 @@ class StaffMiddleware
     {
         $user = $request->user();
 
-        if (!$user || $user->role !== 'staff') {
+        if (!$user || $user->role->name !== 'staff') {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
