@@ -9,6 +9,8 @@
     @include('admin.categories.add')
 
     @foreach ($categories as $category)
+        @include('admin.categories.delete')
+        @include('admin.categories.update')
 
     @endforeach
 
@@ -95,9 +97,14 @@
                                             <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
                                         </svg></a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Edit</a>
+                                       <a class="dropdown-item"
+   data-bs-toggle="modal"
+   data-bs-target="#updateCategory{{ $category->id }}">
+   Edit
+</a>
+
                                         <a class="dropdown-item" data-bs-toggle="modal"
-                                            data-bs-target="#deleteUser{{ $category->id }}"
+                                            data-bs-target="#deleteCategory{{ $category->id }}"
                                             href="#">Delete</a>
                                     </div>
                                 </div>
