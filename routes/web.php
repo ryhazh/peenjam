@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AdminOrStaffMiddleware;
 use Symfony\Component\Routing\RequestContext;
@@ -15,9 +16,11 @@ use App\Http\Middleware\StaffMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use Illuminate\Routing\RouteGroup;
 
-// Route::get('/', function () {
-//     return redirect('/items');
+// Route::get('/dashboard', function () {
+//     return view('shared.dashboard.index');
 // });
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
 
 // Route::resource('categories', CategoryController::class);
 // Route::resource('items', ItemController::class);
@@ -39,9 +42,11 @@ Route::middleware(['auth', AdminOrStaffMiddleware::class])->group(function () {
     Route::put('/requests/reject/{id}', [RequestController::class, 'reject'])->name('requests.reject');
 
     Route::resource('records', RecordController::class)->only([
-        'store', 'update', 'destroy'
+        'store',
+        'update',
+        'destroy'
     ]);
-    });
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/items', [ItemController::class, 'index'])->name('items.index');

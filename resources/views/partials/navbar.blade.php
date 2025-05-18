@@ -42,7 +42,7 @@
         </div>
 
         <!-- Right Side Items -->
-        <div class="navbar-nav flex-row order-md-last">
+        <div class="navbar-nav flex-row order-md-last gap-5">
             <!-- User Dropdown -->
             @if ($user)
                 <div class="nav-item dropdown">
@@ -62,6 +62,14 @@
                     </div>
                 </div>
             @endif
+            <button class="" style="  all: unset; cursor: pointer; " id="themeToggle"><svg xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-moon">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                        d="M12 1.992a10 10 0 1 0 9.236 13.838c.341 -.82 -.476 -1.644 -1.298 -1.31a6.5 6.5 0 0 1 -6.864 -10.787l.077 -.08c.551 -.63 .113 -1.653 -.758 -1.653h-.266l-.068 -.006l-.06 -.002z" />
+                </svg>
+            </button>
         </div>
     </div>
 </header>
@@ -74,6 +82,27 @@
                     <div class="row flex-column flex-md-row flex-fill align-items-center">
                         <div class="col">
                             <ul class="navbar-nav">
+                                <li class="nav-item {{ $currentUrl === 'dashboard' ? 'active' : '' }}">
+                                    <a class="nav-link" href="/dashboard">
+                                        <span class="nav-link-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-layout-dashboard">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1" />
+                                                <path
+                                                    d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1" />
+                                                <path
+                                                    d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1" />
+                                                <path
+                                                    d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1" />
+                                            </svg>
+                                        </span>
+                                        <span class="nav-link-title"> Dashboard </span>
+                                    </a>
+                                </li>
                                 <!-- Only Home Menu Item -->
                                 @if (($user && $user->role->name === 'admin') || 'user')
                                     <li class="nav-item {{ $currentUrl === 'items' ? 'active' : '' }}">

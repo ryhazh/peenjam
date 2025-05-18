@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('title', 'Login')
 @section('content')
     <div class="container d-flex position-fixed top-50 start-50 translate-middle">
         <div class="row justify-content-center align-items-center w-100">
