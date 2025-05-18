@@ -20,10 +20,13 @@ class DashboardController extends Controller
         if ($user->role->name === 'admin') {
             $userCount = User::count();
             $itemCount = Item::count();
-            $activeBorrowedCount = Record::whereNull('returned_at')
-                ->where('is_approved', 'Approved')
+
+            $activeBorrowedCount = Record::where('is_approved', 'Approved')
+                ->whereNull('returned_at')
                 ->count();
+
             $totalRecordCount = Record::count();
+
             $borrowedCount = Record::whereNull('returned_at')
                 ->where('due_date', '>=', now())
                 ->where('is_approved', 'Approved')
@@ -40,7 +43,6 @@ class DashboardController extends Controller
 
             $rejectedCount = Record::where('is_approved', 'Rejected')->count();
 
-            // Prepare chart data for the last 7 days
             $labels = [];
             $borrowedData = [];
             $returnedData = [];
@@ -68,7 +70,6 @@ class DashboardController extends Controller
                 'returnedCount' => $returnedCount,
                 'rejectedCount' => $rejectedCount,
 
-                // Area chart data
                 'areaChartLabels' => $labels,
                 'areaChartSeries' => [
                     [
@@ -82,10 +83,8 @@ class DashboardController extends Controller
                 ]
             ]);
         }
+        // else if ( wip )
 
-        // Add staff logic if needed
         return view('shared.dashboard.index');
     }
-
-
 }
