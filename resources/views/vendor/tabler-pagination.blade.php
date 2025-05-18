@@ -3,21 +3,41 @@
         {{-- Mobile view pagination --}}
         <div class="d-flex d-sm-none justify-content-center">
             <ul class="pagination m-0">
-                {{-- Previous Arrow --}}
+                {{-- First Page Link --}}
                 @if ($paginator->onFirstPage())
-                    <li class="page-item disabled"><span class="btn btn-pill btn-ghost-secondary">&laquo;</span></li>
+                    <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
                 @else
-                    <li class="page-item"><a class="btn btn-pill btn-ghost-secondary" href="{{ $paginator->previousPageUrl() }}">&laquo;</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $paginator->url(1) }}">&laquo;&laquo;</a>
+                    </li>
                 @endif
 
-                {{-- Current Page --}}
-                <li class="page-item"><span class="btn btn-pill btn-ghost-secondary">{{ $paginator->currentPage() }}</span></li>
-
-                {{-- Next Arrow --}}
-                @if ($paginator->hasMorePages())
-                    <li class="page-item"><a class="btn btn-pill btn-ghost-secondary" href="{{ $paginator->nextPageUrl() }}">&raquo;</a></li>
+                {{-- Previous Page Link --}}
+                @if ($paginator->onFirstPage())
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                 @else
-                    <li class="page-item disabled"><span class="btn btn-pill btn-ghost-secondary">&raquo;</span></li>
+                    <li class="page-item"><a class="page-link" href="{{ $paginator->previousPageUrl() }}"
+                            rel="prev">&laquo;</a></li>
+                @endif
+
+                {{-- Current Page Number --}}
+                <li class="page-item active"><span class="page-link">{{ $paginator->currentPage() }}</span></li>
+
+                {{-- Next Page Link --}}
+                @if ($paginator->hasMorePages())
+                    <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() }}"
+                            rel="next">&raquo;</a></li>
+                @else
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                @endif
+
+                {{-- Last Page Link --}}
+                @if ($paginator->hasMorePages())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $paginator->url($paginator->lastPage()) }}">&raquo;&raquo;</a>
+                    </li>
+                @else
+                    <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
                 @endif
             </ul>
         </div>
@@ -25,39 +45,58 @@
         {{-- Desktop view pagination --}}
         <div class="d-none d-sm-block">
             <ul class="pagination m-0">
-                {{-- Previous Arrow --}}
+                {{-- First Page Link --}}
                 @if ($paginator->onFirstPage())
-                    <li class="page-item disabled"><span class="btn btn-pill btn-ghost-secondary">&laquo;</span></li>
+                    <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
                 @else
-                    <li class="page-item"><a class="btn btn-pill btn-ghost-secondary" href="{{ $paginator->previousPageUrl() }}">&laquo;</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $paginator->url(1) }}">&laquo;&laquo;</a>
+                    </li>
                 @endif
 
+                {{-- Previous Page Link --}}
+                @if ($paginator->onFirstPage())
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                @else
+                    <li class="page-item"><a class="page-link" href="{{ $paginator->previousPageUrl() }}"
+                            rel="prev">&laquo;</a></li>
+                @endif
+
+                {{-- Pagination Elements --}}
                 @foreach ($elements as $element)
+                    {{-- "Three Dots" Separator --}}
+                    @if (is_string($element))
+                        <li class="page-item disabled"><span class="page-link">{{ $element }}</span></li>
+                    @endif
+
+                    {{-- Array Of Links --}}
                     @if (is_array($element))
-                        @php
-                            $currentPage = $paginator->currentPage();
-                        @endphp
-                        
-                        {{-- Previous Page Number --}}
-                        @if($currentPage > 1)
-                            <li class="page-item"><a class="btn btn-pill btn-ghost-secondary" href="{{ $paginator->url($currentPage - 1) }}">{{ $currentPage - 1 }}</a></li>
-                        @endif
-
-                        {{-- Current Page --}}
-                        <li class="page-item active"><span class="btn btn-pill">{{ $currentPage }}</span></li>
-
-                        {{-- Next Page Number --}}
-                        @if($currentPage < $paginator->lastPage())
-                            <li class="page-item"><a class="btn btn-pill btn-ghost-secondary" href="{{ $paginator->url($currentPage + 1) }}">{{ $currentPage + 1 }}</a></li>
-                        @endif
+                        @foreach ($element as $page => $url)
+                            @if ($page == $paginator->currentPage())
+                                <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                            @else
+                                <li class="page-item"><a class="page-link"
+                                        href="{{ $url }}">{{ $page }}</a></li>
+                            @endif
+                        @endforeach
                     @endif
                 @endforeach
 
-                {{-- Next Arrow --}}
+                {{-- Next Page Link --}}
                 @if ($paginator->hasMorePages())
-                    <li class="page-item"><a class="btn btn-pill btn-ghost-secondary" href="{{ $paginator->nextPageUrl() }}">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() }}"
+                            rel="next">&raquo;</a></li>
                 @else
-                    <li class="page-item disabled"><span class="btn btn-pill btn-ghost-secondary">&raquo;</span></li>
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                @endif
+
+                {{-- Last Page Link --}}
+                @if ($paginator->hasMorePages())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $paginator->url($paginator->lastPage()) }}">&raquo;&raquo;</a>
+                    </li>
+                @else
+                    <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
                 @endif
             </ul>
         </div>
