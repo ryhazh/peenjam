@@ -25,6 +25,7 @@
     {{-- @include('partials.navbar')
     @include('partials.menu') --}}
     @include('partials.navbar')
+
     <div class="container mt-5">
         @yield('content')
     </div>

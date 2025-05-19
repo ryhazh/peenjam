@@ -16,9 +16,9 @@ use App\Http\Middleware\StaffMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use Illuminate\Routing\RouteGroup;
 
-// Route::get('/dashboard', function () {
-//     return view('shared.dashboard.index');
-// });
+Route::get('/', function () {
+    return view('landing');
+});
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
 

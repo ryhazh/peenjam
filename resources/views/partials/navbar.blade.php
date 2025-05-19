@@ -62,9 +62,9 @@
                     </div>
                 </div>
             @endif
-            <button class="" style="  all: unset; cursor: pointer; " id="themeToggle"><svg xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
-                    class="icon icon-tabler icons-tabler-filled icon-tabler-moon">
+            <button class="" style="  all: unset; cursor: pointer; " id="themeToggle"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-moon">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path
                         d="M12 1.992a10 10 0 1 0 9.236 13.838c.341 -.82 -.476 -1.644 -1.298 -1.31a6.5 6.5 0 0 1 -6.864 -10.787l.077 -.08c.551 -.63 .113 -1.653 -.758 -1.653h-.266l-.068 -.006l-.06 -.002z" />
@@ -77,137 +77,145 @@
 @if (request()->path() != 'login')
     <header class="navbar-expand-md">
         <div class="navbar-collapse collapse" id="navbar-menu">
+            @if (!Request::is('/'))
             <div class="navbar">
                 <div class="container-xl">
-                    <div class="row flex-column flex-md-row flex-fill align-items-center">
-                        <div class="col">
-                            <ul class="navbar-nav">
-                                <li class="nav-item {{ $currentUrl === 'dashboard' ? 'active' : '' }}">
-                                    <a class="nav-link" href="/dashboard">
-                                        <span class="nav-link-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-layout-dashboard">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path
-                                                    d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1" />
-                                                <path
-                                                    d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1" />
-                                                <path
-                                                    d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1" />
-                                                <path
-                                                    d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1" />
-                                            </svg>
-                                        </span>
-                                        <span class="nav-link-title"> Dashboard </span>
-                                    </a>
-                                </li>
-                                <!-- Only Home Menu Item -->
-                                @if (($user && $user->role->name === 'admin') || 'user')
-                                    <li class="nav-item {{ $currentUrl === 'items' ? 'active' : '' }}">
-                                        <a class="nav-link" href="/items">
+                        <div class="row flex-column flex-md-row flex-fill align-items-center">
+                            <div class="col">
+
+                                <ul class="navbar-nav">
+                                    <li class="nav-item {{ $currentUrl === 'dashboard' ? 'active' : '' }}">
+                                        <a class="nav-link" href="/dashboard">
                                             <span class="nav-link-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-archive">
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-layout-dashboard">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <path
-                                                        d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
-                                                    <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-                                                    <path d="M10 12l4 0" />
-                                                </svg>
-                                            </span>
-                                            <span class="nav-link-title"> Items </span>
-                                        </a>
-                                    </li>
-                                @endif
-                                @if ($user && $user->role->name === 'admin')
-                                    <li class="nav-item {{ $currentUrl === 'users' ? 'active' : '' }}">
-                                        <a class="nav-link" href="/users">
-                                            <span class="nav-link-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-users">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                                                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                                                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                                                </svg>
-                                            </span>
-                                            <span class="nav-link-title"> Users </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item {{ $currentUrl === 'categories' ? 'active' : '' }}">
-                                        <a class="nav-link" href="/categories">
-                                            <span class="nav-link-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-category">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M4 4h6v6h-6z" />
-                                                    <path d="M14 4h6v6h-6z" />
-                                                    <path d="M4 14h6v6h-6z" />
-                                                    <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                </svg>
-                                            </span>
-                                            <span class="nav-link-title"> Categories </span>
-                                        </a>
-                                    </li>
-                                @endif
-                                @if (($user && $user->role->name === 'admin') || 'user')
-                                    <li class="nav-item {{ $currentUrl === 'records' ? 'active' : '' }}">
-                                        <a class="nav-link" href="/records">
-                                            <span class="nav-link-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-report">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697" />
-                                                    <path d="M18 14v4h4" />
-                                                    <path d="M18 11v-4a2 2 0 0 0 -2 -2h-2" />
+                                                        d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1" />
                                                     <path
-                                                        d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                                    <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                                                    <path d="M8 11h4" />
-                                                    <path d="M8 15h3" />
-                                                </svg>
-                                            </span>
-                                            <span class="nav-link-title"> Records </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item {{ $currentUrl === 'requests' ? 'active' : '' }}">
-                                        <a class="nav-link" href="/requests">
-                                            <span class="nav-link-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-report">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697" />
-                                                    <path d="M18 14v4h4" />
-                                                    <path d="M18 11v-4a2 2 0 0 0 -2 -2h-2" />
+                                                        d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1" />
                                                     <path
-                                                        d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                                    <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                                                    <path d="M8 11h4" />
-                                                    <path d="M8 15h3" />
+                                                        d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1" />
+                                                    <path
+                                                        d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1" />
                                                 </svg>
                                             </span>
-                                            <span class="nav-link-title"> Request </span>
+                                            <span class="nav-link-title"> Dashboard </span>
                                         </a>
                                     </li>
-                                @endif
-                            </ul>
+                                    <!-- Only Home Menu Item -->
+                                    @if (($user && $user->role->name === 'admin') || 'user')
+                                        <li class="nav-item {{ $currentUrl === 'items' ? 'active' : '' }}">
+                                            <a class="nav-link" href="/items">
+                                                <span class="nav-link-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-archive">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path
+                                                            d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+                                                        <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+                                                        <path d="M10 12l4 0" />
+                                                    </svg>
+                                                </span>
+                                                <span class="nav-link-title"> Items </span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if ($user && $user->role->name === 'admin')
+                                        <li class="nav-item {{ $currentUrl === 'users' ? 'active' : '' }}">
+                                            <a class="nav-link" href="/users">
+                                                <span class="nav-link-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                                                    </svg>
+                                                </span>
+                                                <span class="nav-link-title"> Users </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item {{ $currentUrl === 'categories' ? 'active' : '' }}">
+                                            <a class="nav-link" href="/categories">
+                                                <span class="nav-link-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-category">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M4 4h6v6h-6z" />
+                                                        <path d="M14 4h6v6h-6z" />
+                                                        <path d="M4 14h6v6h-6z" />
+                                                        <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                    </svg>
+                                                </span>
+                                                <span class="nav-link-title"> Categories </span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if (($user && $user->role->name === 'admin') || 'user')
+                                        <li class="nav-item {{ $currentUrl === 'records' ? 'active' : '' }}">
+                                            <a class="nav-link" href="/records">
+                                                <span class="nav-link-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-report">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697" />
+                                                        <path d="M18 14v4h4" />
+                                                        <path d="M18 11v-4a2 2 0 0 0 -2 -2h-2" />
+                                                        <path
+                                                            d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+                                                        <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                                        <path d="M8 11h4" />
+                                                        <path d="M8 15h3" />
+                                                    </svg>
+                                                </span>
+                                                <span class="nav-link-title"> Records </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item {{ $currentUrl === 'requests' ? 'active' : '' }}">
+                                            <a class="nav-link" href="/requests">
+                                                <span class="nav-link-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-report">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697" />
+                                                        <path d="M18 14v4h4" />
+                                                        <path d="M18 11v-4a2 2 0 0 0 -2 -2h-2" />
+                                                        <path
+                                                            d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+                                                        <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                                        <path d="M8 11h4" />
+                                                        <path d="M8 15h3" />
+                                                    </svg>
+                                                </span>
+                                                <span class="nav-link-title"> Request </span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                @endif
         </div>
     </header>
 @endif
