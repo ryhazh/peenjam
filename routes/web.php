@@ -35,7 +35,7 @@ Route::get('/login', function () {
 
 Route::get('/register', function () {
     return view('auth.register');
-});
+})->name('register');
 
 Route::middleware(['auth', AdminOrStaffMiddleware::class])->group(function () {
     Route::put('/requests/accept/{id}', [RequestController::class, 'accept'])->name('requests.accept');
@@ -71,6 +71,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::middleware('auth')->post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-Route::middleware('auth')->post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register')->middleware('guest');
 
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login')->middleware('throttle:10,1');

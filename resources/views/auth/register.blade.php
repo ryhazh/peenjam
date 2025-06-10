@@ -16,22 +16,53 @@
                             <div class="text-right">
                                 <h1>Sign up</h1>
                             </div>
-                            <div class="mt-3">
+                            <form action="{{ route('auth.register') }}" method="POST">
+                                @csrf
+
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul class="mb-0">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <div class="mb-2">
-                                    <label for="email">Email</label>
-                                    <input type="text" name="email" class="form-control" id="">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}"
+                                        required>
                                 </div>
                                 <div class="mb-2">
-                                    <label for="email">Password</label>
-                                    <input type="password" name="email" class="form-control" id="">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" name="phone" class="form-control" value="{{ old('phone') }}"
+                                        required>
+                                </div>
+
+
+                                <div class="mb-2">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" class="form-control" value="{{ old('email') }}"
+                                        required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" class="form-control" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="password_confirmation">Confirm Password</label>
+                                    <input type="password" name="password_confirmation" class="form-control" required>
                                 </div>
                                 <div>
                                     <p>Already have an account? <a href="/login">Sign In</a></p>
                                 </div>
-                            </div>
-                            <div class="justify-content-center pt-4">
-                                <button class="btn btn-primary w-100">Sign In</button>
-                            </div>
+                                <div class="justify-content-center pt-4">
+                                    <button class="btn btn-primary w-100">Sign Up</button>
+                                </div>
+                            </form>
+
+
                         </div>
                     </div>
                 </div>
