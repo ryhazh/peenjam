@@ -29,7 +29,8 @@ class RecordController extends Controller
                 $query->whereNotNull('returned_at');
             } elseif ($status === 'overdue') {
                 $query->whereNull('returned_at')
-                    ->where('due_date', '<', now());
+                    ->where('due_date', '<', now())
+                    ->where('is_approved', 'Approved'); // <-- Added this line here
             } elseif ($status === 'borrowed') {
                 $query->whereNull('returned_at')
                     ->where('due_date', '>=', now());

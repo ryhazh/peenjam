@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    protected $fillable = ['name', 'description', 'quantity', 'category_id'];
+    protected $fillable = ['image', 'name', 'description', 'quantity', 'category_id'];
 
     public function category()
     {
@@ -20,10 +20,21 @@ class Item extends Model
 
     public function getAvailableItemsAttribute()
     {
-        $borrowedCount = $this->records()
+
+        $borrowedQuantityOfThisItem = $this->records()
             ->whereNull('returned_at')
             ->sum('quantity');
 
-        return $this->quantity - ($borrowedCount ?? 0);
+        return max(0, $this->quantity - ($borrowedQuantityOfThisItem ?? 0));
+    }
+
+    public function getTotalBorrowedQuantityAttribute()
+    {
+        return $this->records()->sum('quantity');
+    }
+
+    public function getTotalReturnedQuantityAttribute()
+    {
+        return $this->records()->whereNotNull('returned_at')->sum('quantity');
     }
 }

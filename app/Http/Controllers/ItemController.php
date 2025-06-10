@@ -31,29 +31,24 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validate([
-                'name' => 'required|string|max:255',
+            $validatedData = $request->validate([
+                'name'        => 'required|string|max:255',
                 'description' => 'required|string',
-                'quantity' => 'required|integer|min:0',
+                'quantity'    => 'required|integer|min:0',
                 'category_id' => 'required|exists:categories,id',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'image'       => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
-            $data = [
-                'name' => $request->name,
-                'description' => $request->description,
-                'quantity' => $request->quantity,
-                'category_id' => $request->category_id,
-            ];
 
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('items', 'public');
-                $data['image'] = $imagePath;
+                $validatedData['image'] = $imagePath;
             }
 
-            Item::create($data);
+            Item::create($validatedData);
+
             return redirect()->route('items.index')->with('success', 'Item created successfully');
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Something went wrong');
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 

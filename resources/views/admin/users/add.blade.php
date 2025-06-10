@@ -24,6 +24,27 @@
                         <label class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" required>
                     </div>
+
+                    {{-- Role Selection (Select Group) --}}
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <div class="form-selectgroup">
+                            <label class="form-selectgroup-item">
+                                {{-- 'User' as the first option and default selected --}}
+                                <input type="radio" name="role_id" value="3" class="form-selectgroup-input"
+                                    checked />
+                                <span class="form-selectgroup-label">User</span>
+                            </label>
+                            <label class="form-selectgroup-item">
+                                {{-- 'Operator' as the second option --}}
+                                <input type="radio" name="role_id" value="2" class="form-selectgroup-input" />
+                                <span class="form-selectgroup-label">Operator</span>
+                            </label>
+                            {{-- Add more roles here if needed --}}
+                        </div>
+                    </div>
+                    {{-- End Role Selection --}}
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
