@@ -3,88 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use App\Models\User;
 use App\Models\Record;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-
-
     public function index()
     {
         $user = auth()->user();
 
+        if (!$user) {
+            return redirect('/login')->with('error', 'You need to be logged in to view the dashboard.');
+        }
+
         if ($user->role->name === 'admin') {
             $userCount = User::count();
-            $itemCount = Item::count();
 
-            $activeBorrowedCount = Record::where('is_approved', 'Approved')
+            // Item Types (count of distinct item definitions)
+            $itemTypeCount = Item::count();
+
+            // Total Loan Records (all loan records ever, regardless of status or return)
+            $totalRecordCount = Record::count();
+
+            // Pending Loans (records awaiting approval and not yet returned)
+            $pendingUnreturnedCount = Record::where('is_approved', 'Pending')
                 ->whereNull('returned_at')
                 ->count();
 
-            $totalRecordCount = Record::count();
-
-            $borrowedCount = Record::whereNull('returned_at')
-                ->where('due_date', '>=', now())
-                ->where('is_approved', 'Approved')
+            // Rejected Loans (rejected records that are not yet returned)
+            $rejectedUnreturnedCount = Record::where('is_approved', 'Rejected')
+                ->whereNull('returned_at')
                 ->count();
-
-            $overdueCount = Record::whereNull('returned_at')
-                ->where('due_date', '<', now())
-                ->where('is_approved', 'Approved')
-                ->count();
-
-            $returnedCount = Record::whereNotNull('returned_at')
-                ->where('is_approved', 'Approved')
-                ->count();
-
-            $rejectedCount = Record::where('is_approved', 'Rejected')->count();
-
-            $labels = [];
-            $borrowedData = [];
-            $returnedData = [];
-
-            for ($i = 6; $i >= 0; $i--) {
-                $date = Carbon::today()->subDays($i);
-                $labels[] = $date->toDateString();
-
-                $borrowedData[] = Record::whereDate('created_at', $date)
-                    ->where('is_approved', 'Approved')
-                    ->count();
-
-                $returnedData[] = Record::whereDate('returned_at', $date)
-                    ->where('is_approved', 'Approved')
-                    ->count();
-            }
 
             return view('shared.dashboard.index', [
                 'userCount' => $userCount,
-                'itemCount' => $itemCount,
-                'activeBorrowedCount' => $activeBorrowedCount,
+                'itemTypeCount' => $itemTypeCount,
                 'totalRecordCount' => $totalRecordCount,
-                'borrowedCount' => $borrowedCount,
-                'overdueCount' => $overdueCount,
-                'returnedCount' => $returnedCount,
-                'rejectedCount' => $rejectedCount,
-
-                'areaChartLabels' => $labels,
-                'areaChartSeries' => [
-                    [
-                        'name' => 'Borrowed',
-                        'data' => $borrowedData
-                    ],
-                    [
-                        'name' => 'Returned',
-                        'data' => $returnedData
-                    ]
-                ]
+                'pendingUnreturnedCount' => $pendingUnreturnedCount,
+                'rejectedUnreturnedCount' => $rejectedUnreturnedCount,
             ]);
         }
-        // else if ( wip )
 
-        return view('shared.dashboard.index');
+        // For non-admin users, if you have a different dashboard view, specify it here.
+        // Otherwise, it might just be an empty dashboard or redirect to a user-specific page.
+        return view('shared.dashboard.index'); // Or whatever is appropriate for non-admins
     }
 }

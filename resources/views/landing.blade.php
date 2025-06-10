@@ -11,7 +11,7 @@
         <div class="d-flex gap-3 justify-content-center mt-5">
             <a href="{{ route('register') }}" class="btn btn-pill btn-lg btn-primary">Mulai Sekarang</a>
             <a href="https://github.com/ryhazh/peenjam" class="btn btn-outline-dark btn-lg" target="_blank"
-                style="border: 1px solid #6c757d; color: #6c757d;">
+>
                 Source Code
             </a>
         </div>

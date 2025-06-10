@@ -5,5 +5,5 @@
     @include('partials.dashboard.admin')
 @elseif (auth()->user()->role === 'staff')
 
-@else
+@elseif(auth()->user()->role === 'user')
 @endif
