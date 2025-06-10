@@ -74,12 +74,12 @@
     </div>
 </header>
 
-@if (request()->path() != 'login')
+@if (!in_array(request()->path(), ['login', 'register']))
     <header class="navbar-expand-md">
         <div class="navbar-collapse collapse" id="navbar-menu">
             @if (!Request::is('/'))
-            <div class="navbar">
-                <div class="container-xl">
+                <div class="navbar">
+                    <div class="container-xl">
                         <div class="row flex-column flex-md-row flex-fill align-items-center">
                             <div class="col">
 
@@ -215,7 +215,7 @@
                         </div>
                     </div>
                 </div>
-                @endif
+            @endif
         </div>
     </header>
 @endif
