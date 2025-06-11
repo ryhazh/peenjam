@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('items.index');
+            return redirect()->route('shared.dashboard.index');
         }
 
         return redirect()->back()->withErrors([
