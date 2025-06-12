@@ -21,8 +21,7 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
-
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 // Route::resource('categories', CategoryController::class);
 // Route::resource('items', ItemController::class);
 // Route::resource('records', RecordController::class);
